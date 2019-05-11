@@ -36,5 +36,7 @@ class LoginActivity : AppCompatActivity() {
 
     fun openMainActivity(){
         startActivity(Intent(this, MainActivity::class.java))
+        this.finish()
+
     }
 }
