@@ -6,4 +6,5 @@
     <color name="colorTimeSlot_Free">#1fbe47</color>
     <color name="colorTimeSlot_Booked">#BE471F</color>
     <color name="colorTimeSlot_Unavailable">#e5260e06</color>
+    <color name="content_background">#f2f2f2</color>
 </resources>
