@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import java.lang.Exception
 
 class LoginActivity : AppCompatActivity() {
 
@@ -11,7 +12,12 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         loginButton.setOnClickListener {
-            openBankidApp()
+            try {
+                openBankidApp()
+            }
+            catch (e: Exception){
+//                openMainActivity()
+            }
         }
     }
 
@@ -25,6 +31,10 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        openMainActivity()
+    }
+
+    fun openMainActivity(){
         startActivity(Intent(this, MainActivity::class.java))
     }
 }
