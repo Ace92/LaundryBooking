@@ -17,13 +17,15 @@
 
     <TextView
         android:id="@+id/status"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+
         app:layout_constraintBottom_toBottomOf="@id/time"
         app:layout_constraintStart_toEndOf="@id/time"
         app:layout_constraintTop_toTopOf="@id/time"
         app:layout_constraintEnd_toStartOf="@id/bookButton"
-        tools:text="Maintain" />
+        tools:text="Booked by me" />
 
     <Button
         android:id="@+id/bookButton"
