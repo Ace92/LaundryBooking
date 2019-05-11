@@ -9,10 +9,10 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import com.example.tvattroom.*
 import com.hackathon.laundrybooking.full.ArticleAdapter
 import com.hackathon.laundrybooking.full.GroupItemDecoration
@@ -20,13 +20,13 @@ import com.hackathon.laundrybooking.full.ItemClick
 import com.haibin.calendarview.Calendar
 import com.haibin.calendarview.CalendarView
 import kotlinx.android.synthetic.main.content_main.*
+import java.text.SimpleDateFormat
 
 
 class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
         CalendarView.OnYearChangeListener, ItemClick {
     override fun onItemClick(timeSlot: TimeSlot) {
         showDialog("Book time", timeSlot)
-
     }
 
     val repository = DummyRepository()
@@ -85,6 +85,13 @@ class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
         calendarView.setOnCalendarSelectListener(this)
         calendarView.setOnYearChangeListener(this)
         initData()
+        updateBookedItem()
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.addItemDecoration(GroupItemDecoration<String, TimeSlot>())
+        adapter = ArticleAdapter(this, slotMap)
+        adapter.setItemClickListener(this)
+        recyclerView.adapter = adapter
+        recyclerView.notifyDataSetChanged()
     }
 
 
@@ -103,13 +110,6 @@ class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
             }
         }
         calendarView.setSchemeDate(map)
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.addItemDecoration(GroupItemDecoration<String, TimeSlot>())
-        adapter = ArticleAdapter(this, slotMap)
-        adapter.setItemClickListener(this)
-        recyclerView.adapter = adapter
-        recyclerView.notifyDataSetChanged()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -158,20 +158,34 @@ class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
 
     private fun showDialog(title: String, timeSlot: TimeSlot) {
         val dialog = Dialog(this)
-        dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog .setCancelable(false)
-        dialog .setContentView(R.layout.custom_dialog)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.custom_dialog)
         val body = dialog.findViewById<TextView>(R.id.txt_dia) as TextView
         body.text = title
         val yesBtn = dialog.findViewById<Button>(R.id.btn_yes) as Button
-        val noBtn = dialog .findViewById<Button>(R.id.btn_no) as TextView
+        val noBtn = dialog.findViewById<Button>(R.id.btn_no) as TextView
         yesBtn.setOnClickListener {
-            dialog .dismiss()
-            Toast.makeText(this, "You have booked ", Toast.LENGTH_SHORT).show()
-
+            dialog.dismiss()
+            repository.bookTimeSlot(timeSlot)
+            updateBookedItem()
+            initData()
+            onCalendarSelect(calendarView.selectedCalendar, false)
         }
-        noBtn.setOnClickListener { dialog .dismiss() }
-        dialog .show()
+        noBtn.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+
+    }
+
+    private fun updateBookedItem() {
+        val timeSlot = repository.getBookedTimeSlot()
+        if (timeSlot != null) {
+            val sdf = SimpleDateFormat("HH:mm dd MMM YYYY")
+            time.text = sdf.format(timeSlot.startTime)
+            bookedTime.visibility = View.VISIBLE
+        } else {
+            bookedTime.visibility = View.GONE
+        }
 
     }
 
