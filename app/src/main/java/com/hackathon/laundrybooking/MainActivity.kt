@@ -1,6 +1,7 @@
 package com.hackathon.laundrybooking
 
 
+import android.app.Dialog
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
@@ -8,6 +9,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Window
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import com.example.tvattroom.*
 import com.hackathon.laundrybooking.full.ArticleAdapter
@@ -21,8 +25,8 @@ import kotlinx.android.synthetic.main.content_main.*
 class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
         CalendarView.OnYearChangeListener, ItemClick {
     override fun onItemClick(timeSlot: TimeSlot) {
-        //Azer, here we get selected timeSlot
-        Toast.makeText(this, "${timeSlot.id}", Toast.LENGTH_SHORT).show()
+        showDialog("Book time", timeSlot)
+
     }
 
     val repository = DummyRepository()
@@ -121,9 +125,6 @@ class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
         val intentLogout = Intent(this, LoginActivity::class.java)
 
         when (item.itemId) {
-            R.id.settings -> {
-                startActivity(intentSettings)
-            }
             R.id.logout -> {
                 startActivity(intentLogout)
             }
@@ -153,6 +154,25 @@ class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
                 Maintain -> resources.getColor(R.color.colorTimeSlot_Unavailable)
             }
         }
+    }
+
+    private fun showDialog(title: String, timeSlot: TimeSlot) {
+        val dialog = Dialog(this)
+        dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog .setCancelable(false)
+        dialog .setContentView(R.layout.custom_dialog)
+        val body = dialog.findViewById<TextView>(R.id.txt_dia) as TextView
+        body.text = title
+        val yesBtn = dialog.findViewById<Button>(R.id.btn_yes) as Button
+        val noBtn = dialog .findViewById<Button>(R.id.btn_no) as TextView
+        yesBtn.setOnClickListener {
+            dialog .dismiss()
+            Toast.makeText(this, "You have booked ", Toast.LENGTH_SHORT).show()
+
+        }
+        noBtn.setOnClickListener { dialog .dismiss() }
+        dialog .show()
+
     }
 
 }

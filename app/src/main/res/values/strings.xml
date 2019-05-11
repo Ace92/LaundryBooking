@@ -14,4 +14,12 @@
         <item>NOV</item>
         <item>DEC</item>
     </string-array>
+
+    <string-array name="spinner">
+        <item>1 hour</item>
+        <item>2 hour</item>
+        <item>3 hour</item>
+        <item>4 hour</item>
+        <item>5 hour</item>
+    </string-array>
 </resources>
