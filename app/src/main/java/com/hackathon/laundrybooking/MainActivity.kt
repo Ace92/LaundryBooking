@@ -125,9 +125,6 @@ class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
         val intentLogout = Intent(this, LoginActivity::class.java)
 
         when (item.itemId) {
-            R.id.settings -> {
-                startActivity(intentSettings)
-            }
             R.id.logout -> {
                 startActivity(intentLogout)
             }
@@ -170,7 +167,7 @@ class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
         val noBtn = dialog .findViewById<Button>(R.id.btn_no) as TextView
         yesBtn.setOnClickListener {
             dialog .dismiss()
-            Toast.makeText(this, "You have booked " + "${timeSlot.id}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "You have booked ", Toast.LENGTH_SHORT).show()
 
         }
         noBtn.setOnClickListener { dialog .dismiss() }
