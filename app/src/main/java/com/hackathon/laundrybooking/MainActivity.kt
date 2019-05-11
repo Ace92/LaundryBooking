@@ -1,12 +1,15 @@
 package com.hackathon.laundrybooking
 
-import android.support.v7.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import com.haibin.calendarview.Calendar
 import com.haibin.calendarview.CalendarView
 import kotlinx.android.synthetic.main.content_main.*
 
-class MainActivity : AppCompatActivity(),  CalendarView.OnCalendarSelectListener,
+class MainActivity : AppCompatActivity(), CalendarView.OnCalendarSelectListener,
         CalendarView.OnYearChangeListener {
     override fun onCalendarSelect(calendar: Calendar?, isClick: Boolean) {
 
@@ -28,6 +31,7 @@ class MainActivity : AppCompatActivity(),  CalendarView.OnCalendarSelectListener
         calendarView.setOnYearChangeListener(this)
         initData()
     }
+
 
     protected fun initData() {
         val year = calendarView.getCurYear()
@@ -57,6 +61,30 @@ class MainActivity : AppCompatActivity(),  CalendarView.OnCalendarSelectListener
         //此方法在巨大的数据量上不影响遍历性能，推荐使用
         calendarView.setSchemeDate(map)
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu to use in the action bar
+        val inflater = menuInflater
+        inflater.inflate(R.menu.toolbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        val intentSettings = Intent(this, SettingsActivity::class.java)
+        val intentLogout= Intent(this, LoginActivity::class.java)
+
+        when (item.itemId) {
+            R.id.settings -> {
+                startActivity(intentSettings)
+            }
+            R.id.logout -> {
+                startActivity(intentLogout)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
     private fun getSchemeCalendar(year: Int, month: Int, day: Int, color: Int, text: String): Calendar {
         val calendar = Calendar()
