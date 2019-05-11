@@ -8,14 +8,46 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <LinearLayout
+        android:id="@+id/bookedTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:background="@color/colorPrimary"
+        android:layout_margin="8dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your appointment:"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
+            tools:text="06:00 - 09:00 22/05/19" />
+    </LinearLayout>
+
     <com.haibin.calendarview.CalendarLayout
         android:id="@+id/calendarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="#fff"
         android:orientation="vertical"
+        app:calendar_content_view_id="@+id/recyclerView"
         app:default_status="expand"
-        app:calendar_content_view_id="@+id/recyclerView">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bookedTime">
 
         <com.haibin.calendarview.CalendarView
             android:id="@+id/calendarView"
@@ -52,7 +84,8 @@
             app:year_view_week_height="12dp"
             app:year_view_week_text_color="#e1e1e1"
             app:year_view_week_text_size="6sp" />
-       <com.hackathon.laundrybooking.full.GroupRecyclerView
+
+        <com.hackathon.laundrybooking.full.GroupRecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

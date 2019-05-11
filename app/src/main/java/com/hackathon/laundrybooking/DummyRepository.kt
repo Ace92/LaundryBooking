@@ -10,8 +10,20 @@ import kotlin.random.Random
 class DummyRepository {
     val gap: Int = 3
     private val list = mutableMapOf<Int, MonthSlots>()
+    private var bookedTimeSlot: TimeSlot? = null
+
     fun getAvaliableSlots(): Map<Int, MonthSlots> {
         return list
+    }
+
+    fun getBookedTimeSlot(): TimeSlot? {
+        return bookedTimeSlot
+    }
+
+    fun bookTimeSlot(timeSlot: TimeSlot){
+        bookedTimeSlot = timeSlot
+        bookedTimeSlot?.isMy = true
+        bookedTimeSlot?.bookStatus = Booked
     }
 
     init {
